@@ -4,15 +4,31 @@ Thanks for wanting to add to this list!
 
 ## How the repo works
 
-`README.md` and the Claude skill's reference files (`free-llm-apis/references/*.md`, plus the provider list in `free-llm-apis/SKILL.md`) are generated from `data.json` by CI. Do not edit them directly; pull requests that only change generated files will be asked to move the change to `data.json`.
+**Edit `data.json`, not the generated files.** These are built from `data.json`:
 
-To preview locally (Node 20+, no dependencies):
+- `README.md`
+- `free-llm-apis/references/*.md`
+- the provider list in `free-llm-apis/SKILL.md`
+
+After your PR merges, a bot regenerates and commits them. Don't commit regenerated output yourself; pull requests that only change generated files will be asked to move the change to `data.json`.
+
+**Preview locally** (Node 20+, no dependencies). Don't commit the result:
 
 ```bash
 npm run generate
 ```
 
-If you add a new provider, also add its env var name (and OpenAI-compatible base URL, if it differs from `baseUrl`) to the `SETUP` map in `scripts/provider-setup.js`.
+**Adding a new provider?** Also add an entry to the `SETUP` map in `scripts/provider-setup.js`:
+
+- Key: the provider's `name` from `data.json`, lowercased (e.g. `'groq'`).
+- `env`: the API key env var name (e.g. `GROQ_API_KEY`).
+- `openaiBaseUrl`: only if its OpenAI-compatible URL differs from `baseUrl`.
+
+CI fails if a provider has no `SETUP` entry. To check before you push:
+
+```bash
+node scripts/check-setup.js
+```
 
 ## Adding a provider
 
