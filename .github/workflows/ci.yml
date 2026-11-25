@@ -16,6 +16,8 @@ jobs:
           node-version: '22'
       - name: Validate data.json
         run: node scripts/validate-data.js
+      - name: Every provider has a SETUP entry
+        run: node scripts/check-setup.js
       - name: README generates from data.json
         run: node scripts/generate-readme.js
       - name: Verify generated endpoint labels
